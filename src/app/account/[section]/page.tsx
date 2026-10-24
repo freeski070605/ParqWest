@@ -1,1 +1,17 @@
-import { notFound } from 'next/navigation';const allowed=['wishlist','addresses','returns','notifications','settings'];export default async function AccountSection({params}:{params:Promise<{section:string}>}){const {section}=await params;if(!allowed.includes(section))notFound();return <><span className="eyebrow">Account / {section}</span><h1 className="display" style={{fontSize:'4rem',textTransform:'capitalize'}}>{section}.</h1><div className="empty">Nothing to show here yet.</div></>}
+import { notFound, redirect } from 'next/navigation';
+import { requireUser } from '@/lib/auth';
+
+const sectionMap: Record<string, string> = {
+  wishlist: '/account/wishlist',
+  addresses: '/account/addresses',
+  returns: '/account/returns',
+  notifications: '/account/notifications',
+  settings: '/account/settings',
+};
+
+export default async function AccountSection({ params }: { params: Promise<{ section: string }> }) {
+  const { section } = await params;
+  if (!sectionMap[section]) notFound();
+  await requireUser();
+  redirect(sectionMap[section]);
+}

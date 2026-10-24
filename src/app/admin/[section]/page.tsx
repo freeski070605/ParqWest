@@ -1,1 +1,25 @@
-import { notFound } from 'next/navigation';import { requireAdmin } from '@/lib/auth';import { db } from '@/lib/db';const collections:Record<string,string>={categories:'categories',collections:'collections',inventory:'products',returns:'returns',discounts:'discounts',segments:'segments',campaigns:'campaigns',content:'homepageSections',media:'mediaAssets',analytics:'orders',audit:'auditLogs',settings:'settings'};export default async function AdminSection({params}:{params:Promise<{section:string}>}){const {section}=await params;if(!collections[section])notFound();await requireAdmin(section);const d=await db();const count=await d.collection(collections[section]).countDocuments();return <><span className="eyebrow">Command Center / {section}</span><h1 className="display" style={{fontSize:'4rem',textTransform:'capitalize'}}>{section}.</h1><div className="admin-card"><span className="eyebrow">Records</span><p style={{fontSize:'2rem'}}>{count}</p></div><div className="empty" style={{marginTop:'2rem'}}>This workspace is being prepared for operational controls.</div></>}
+import { notFound, redirect } from 'next/navigation';
+import { requireAdmin } from '@/lib/auth';
+
+const sectionMap: Record<string, string> = {
+  categories: '/admin/categories',
+  collections: '/admin/collections',
+  inventory: '/admin/inventory',
+  products: '/admin/products',
+  customers: '/admin/customers',
+  orders: '/admin/orders',
+  returns: '/admin/returns',
+  content: '/admin/content',
+  campaigns: '/admin/campaigns',
+  media: '/admin/media',
+  analytics: '/admin/analytics',
+  audit: '/admin/audit',
+  settings: '/admin/settings',
+};
+
+export default async function AdminSection({ params }: { params: Promise<{ section: string }> }) {
+  const { section } = await params;
+  if (!sectionMap[section]) notFound();
+  await requireAdmin(section);
+  redirect(sectionMap[section]);
+}
