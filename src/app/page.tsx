@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { listProducts } from '@/lib/catalog';
 import { ProductCard } from '@/components/product-card';
 import { BrandImageView } from '@/components/brand-image';
@@ -18,7 +19,7 @@ export default async function Home() {
 
   return <main className="brand-home">
     <section className="home-hero" aria-labelledby="home-heading">
-      <div className="home-hero-image"><BrandImageView media={brandMedia.hero} sizes="(max-width: 700px) 100vw, 58vw" preload /></div>
+      <div className="home-hero-image"><picture><source media="(max-width: 700px)" srcSet={brandMedia.studio.src} /><Image src={brandMedia.hero.src} alt="PARQ WEST studio portrait in a denim look" width={brandMedia.hero.width} height={brandMedia.hero.height} sizes="(max-width: 700px) 100vw, 58vw" loading="eager" fetchPriority="high" /></picture></div>
       <div className="home-hero-copy"><span className="eyebrow">PARQ WEST / Editorial</span><h1 id="home-heading" className="display">PARQ<br/>WEST</h1><Link className="text-link" href="/lookbook">Enter the lookbook <span aria-hidden="true">↗</span></Link></div>
     </section>
     <div className="brand-intro"><span className="eyebrow">The edit</span><p className="display">A change of perspective.</p><Link className="text-link" href="/shop">Explore the shop <span aria-hidden="true">↗</span></Link></div>

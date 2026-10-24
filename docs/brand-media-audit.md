@@ -6,8 +6,8 @@ All supplied media is portrait except `134938.png`, which is landscape. Sizes be
 
 | File suffix | Type / size | Visible subject and likely category | Model | Role / recommended placement | Used |
 | --- | --- | --- | --- | --- | --- |
-| `134842.png` | PNG 1170×1450 | Denim look, measuring tape; clothing | Yes | Studio editorial / Lookbook opening | Lookbook |
-| `134846.png` | PNG 1170×1448 | Model in denim with orange circular bag; clothing and bags | Yes | Hero / mobile hero | Homepage hero |
+| `134842.png` | PNG 1170×1450 | Denim look, measuring tape; clothing | Yes | Studio editorial / mobile hero | Lookbook opening and mobile homepage hero |
+| `134846.png` | PNG 1170×1448 | Model in denim with orange circular bag; clothing and bags | Yes | Desktop hero | Homepage hero on wider screens |
 | `134849.png` | PNG 1170×1443 | Close portrait, layered top and gold earrings; clothing and accessories | Yes | Detail editorial | Homepage clothing detail |
 | `134852.png` | PNG 1170×1443 | Full look with layered top and dark skirt; clothing | Yes | Fashion editorial | Homepage and Lookbook |
 | `134855.png` | PNG 1170×1443 | Portrait with dark jacket and earrings; clothing and accessories | Yes | Studio portrait | Lookbook |
@@ -37,4 +37,4 @@ All supplied media is portrait except `134938.png`, which is landscape. Sizes be
 | `135051.mp4` | MP4 718×840, 2.3s | Black and white model with circular bag; bags | Yes | Campaign motion | Homepage, poster extracted |
 | `135057.mp4` | MP4 720×840, 3.3s | Three circular bags on pavement; bags | No | Product detail motion | Lookbook, poster extracted |
 
-The selected images are optimized through `next/image`; only the first image on each page is preloaded. The two videos use `preload="none"` and pause outside the viewport or when reduced motion is requested. The raw files total approximately 5.1 MB of images and 3.1 MB of video; the page does not request all of them at once.
+The selected images are optimized through `next/image`, except the mobile hero's art-directed source inside a `picture`. Only true above-the-fold images receive eager, high-priority loading or preload. The two videos use `preload="none"` and pause outside the viewport or when reduced motion is requested. The raw files total approximately 5.1 MB of images and 3.1 MB of video; the page does not request all of them at once.
