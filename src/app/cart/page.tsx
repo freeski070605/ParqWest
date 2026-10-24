@@ -1,0 +1,1 @@
+import { Cart } from '@/components/cart';export const metadata={title:'Bag'};export default function CartPage(){return <main className="container" style={{maxWidth:900,paddingBottom:'5rem'}}><div className="page-title"><span className="eyebrow">Your selection</span><h1 className="display">The bag.</h1></div><Cart/></main>}

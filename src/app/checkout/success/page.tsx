@@ -1,0 +1,2 @@
+import Link from 'next/link';
+export default function Success(){return <main className="container" style={{textAlign:'center',padding:'8rem 0'}}><span className="eyebrow">PARQ WEST / Checkout</span><h1 className="display" style={{fontSize:'clamp(4rem,8vw,8rem)'}}>Thank you.</h1><p>Your payment is being confirmed. We will send an order confirmation once processing is complete.</p><Link href="/account/orders" className="btn">View orders</Link></main>}

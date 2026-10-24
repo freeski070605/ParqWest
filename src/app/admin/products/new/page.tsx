@@ -1,0 +1,1 @@
+import { ProductEditor } from '@/components/product-editor';import { requireAdmin } from '@/lib/auth';export default async function NewProduct(){await requireAdmin('products');return <><span className="eyebrow">Catalog / New product</span><h1 className="display" style={{fontSize:'4rem'}}>Create product.</h1><ProductEditor/></>}

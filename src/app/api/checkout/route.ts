@@ -1,0 +1,7 @@
+import { NextResponse } from 'next/server';
+import Stripe from 'stripe';
+import { db } from '@/lib/db';
+import { reserveOrder, releaseOrder } from '@/lib/commerce';
+import type { Order } from '@/lib/domain';
+export const runtime='nodejs';
+export async function POST(request:Request){if(!process.env.STRIPE_SECRET_KEY)return NextResponse.json({error:'Checkout is not configured yet.'},{status:503});let order:Order|null=null;try{order=await reserveOrder(await request.json());if(!order)throw new Error('Order creation failed');const stripe=new Stripe(process.env.STRIPE_SECRET_KEY);const origin=process.env.NEXT_PUBLIC_APP_URL||new URL(request.url).origin;const session=await stripe.checkout.sessions.create({mode:'payment',line_items:order.items.map(i=>({price_data:{currency:'usd',unit_amount:i.unitPrice,product_data:{name:i.name,description:`${i.color} / ${i.size}`}},quantity:i.quantity})),customer_email:order.email||undefined,client_reference_id:order._id.toHexString(),metadata:{orderId:order._id.toHexString()},success_url:`${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,cancel_url:`${origin}/cart`,expires_at:Math.floor(Date.now()/1000)+1800},{idempotencyKey:order._id.toHexString()});await (await db()).collection<Order>('orders').updateOne({_id:order._id},{$set:{stripeSessionId:session.id}});return NextResponse.json({url:session.url});}catch(error){if(order)await releaseOrder(order._id,'CHECKOUT_FAILED');return NextResponse.json({error:error instanceof Error?error.message:'Checkout failed.'},{status:400})}}

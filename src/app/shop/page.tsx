@@ -1,0 +1,9 @@
+import Link from 'next/link';
+import { listProducts } from '@/lib/catalog';
+import { ProductCard } from '@/components/product-card';
+export const metadata = { title: 'Shop' };
+export default async function Shop({ searchParams }: { searchParams: Promise<{ category?: string; q?: string; page?: string }> }) {
+  const params = await searchParams; const page = Math.max(1, Number(params.page) || 1);
+  const { products, total, unconfigured } = await listProducts({ category: params.category, q: params.q, page });
+  return <main className="container"><div className="page-title"><span className="eyebrow">PARQ WEST / The collection</span><h1 className="display">The shop.</h1><p className="muted">Explore every form of expression.</p></div><form action="/shop" style={{display:'flex',gap:'.7rem',flexWrap:'wrap',padding:'1rem 0 2rem'}}><label className="field" style={{margin:0}}>Category<select name="category" defaultValue={params.category || ''}><option value="">All</option><option value="clothing">Clothing</option><option value="bags">Bags</option><option value="accessories">Accessories</option></select></label><label className="field" style={{margin:0}}>Search<input name="q" defaultValue={params.q || ''} placeholder="Product, color or SKU"/></label><button className="btn" type="submit">Apply</button></form>{products.length ? <div className="product-grid">{products.map(p=><ProductCard product={p} key={p.slug}/>)}</div> : <div className="empty">{unconfigured ? 'Catalog unavailable until MongoDB Atlas is configured.' : 'No products match this search.'}</div>}<div style={{display:'flex',justifyContent:'center',gap:'2rem',padding:'3rem'}}>{page > 1 && <Link href={`/shop?page=${page-1}`}>← Previous</Link>}{page * 12 < total && <Link href={`/shop?page=${page+1}`}>Next →</Link>}</div></main>;
+}

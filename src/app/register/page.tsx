@@ -1,0 +1,2 @@
+import Link from 'next/link';import { AuthForm } from '@/components/auth-form';
+export default function Register(){return <main className="container" style={{maxWidth:520,padding:'5rem 0'}}><span className="eyebrow">Your PARQ WEST</span><h1 className="display" style={{fontSize:'5rem'}}>Join us.</h1><AuthForm mode="register"/><p>Already have an account? <Link href="/login"><u>Sign in</u></Link></p></main>}
