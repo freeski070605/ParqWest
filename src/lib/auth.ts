@@ -4,9 +4,29 @@ import { SignJWT, jwtVerify } from 'jose';
 import { ObjectId } from 'mongodb';
 import { redirect } from 'next/navigation';
 import { db } from './db';
+import type { Address, NotificationPreferences } from './domain';
 
 export type Role = 'CUSTOMER' | 'OWNER' | 'MANAGER' | 'FULFILLMENT' | 'MARKETING' | 'CONTENT';
-export type AuthUser = { _id: ObjectId; email: string; name: string; role: Role; passwordHash: string; createdAt: Date };
+export type AccountReturn = {
+  id: string;
+  orderId: string;
+  status: string;
+  items: Array<{ sku: string; quantity: number; reason: string }>;
+  createdAt: Date;
+};
+export type AuthUser = {
+  _id: ObjectId;
+  email: string;
+  name: string;
+  role: Role;
+  passwordHash: string;
+  createdAt: Date;
+  addresses?: Address[];
+  defaultAddress?: Address | null;
+  preferences?: NotificationPreferences;
+  wishlist?: string[];
+  returns?: AccountReturn[];
+};
 const cookieName = 'pw_session';
 function secret() { const value = process.env.AUTH_SECRET; if (!value || value.length < 32) throw new Error('AUTH_SECRET must be at least 32 characters'); return new TextEncoder().encode(value); }
 export async function issueSession(user: AuthUser) {

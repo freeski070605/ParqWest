@@ -28,6 +28,13 @@ export type Product = ProductInput & { _id: ObjectId; createdAt: Date; updatedAt
 export const cartLineSchema = z.object({ productId: z.string().regex(/^[a-f\d]{24}$/i), sku: z.string().min(1), quantity: z.number().int().min(1).max(10) });
 export const checkoutSchema = z.object({ lines: z.array(cartLineSchema).min(1).max(30) });
 
+export const returnRequestSchema = z.object({
+  orderId: z.string().regex(/^[a-f\d]{24}$/i),
+  sku: z.string().trim().min(1).max(120),
+  quantity: z.number().int().min(1).max(20),
+  reason: z.string().trim().min(1).max(80),
+});
+
 export const categorySchema = z.object({
   name: z.string().trim().min(2).max(80),
   slug: z.string().trim().min(2).max(80).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
