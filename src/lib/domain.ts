@@ -93,7 +93,7 @@ export type Address = z.infer<typeof addressSchema>;
 export type NotificationPreferences = z.infer<typeof notificationPreferencesSchema>;
 
 export function publishedFilter(): Filter<Product> {
-  return { $or: [
+  return { demo: { $ne: true }, $or: [
     { status:'ACTIVE', $or:[{publishedAt:{$exists:false}},{publishedAt:{$lte:new Date()}}] },
     { status:'SCHEDULED', publishedAt:{$lte:new Date()} }
   ] };
